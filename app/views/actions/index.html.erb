@@ -1,0 +1,10 @@
+<h1>Actions#index</h1>
+<p>Find me in app/views/actions/index.html.erb</p>
+
+<script>
+    $(function () {
+        $.get("http://api.github.com/", function (item) {
+            $("h1").text(item.current_user_url);
+        })
+    });
+</script>
