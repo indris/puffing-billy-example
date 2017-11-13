@@ -41,4 +41,17 @@ describe 'Actions' do
     screenshot_and_open_image
     expect(page).to have_content('abcdefghi')
   end
+
+  it 'shows index page' do
+    url = 'https://api.github.com:443/'
+    file = File.read('/home/dastan/projects/veeqo/spec/controllers/github.json')
+    hash = JSON.parse(file)
+    proxy.stub(url).and_return(headers: { 'Access-Control-Allow-Origin' => '*'}, json: hash)
+
+    visit '/actions/index'
+    sleep 20
+    p page.driver.console_messages
+    screenshot_and_open_image
+    expect(page).to have_content('abcdefghi')
+  end
 end
