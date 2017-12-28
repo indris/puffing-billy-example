@@ -29,29 +29,29 @@ end
 
 describe 'Actions' do
 
-  it 'shows index page' do
+  it 'stub for HTTP working' do
     url = 'http://api.github.com/'
-    file = File.read('/home/dastan/projects/veeqo/spec/controllers/github.json')
+    file = file_fixture('test.json').read
     hash = JSON.parse(file)
     proxy.stub(url).and_return(headers: { 'Access-Control-Allow-Origin' => '*'}, json: hash)
 
     visit '/actions/index'
-    sleep 20
+    sleep 3
     p page.driver.console_messages
     screenshot_and_open_image
-    expect(page).to have_content('abcdefghi')
+    expect(page).to have_css('.http', text: 'expected_value')
   end
 
-  it 'shows index page' do
+  it 'stub for HTTPS NOT working' do
     url = 'https://api.github.com:443/'
-    file = File.read('/home/dastan/projects/veeqo/spec/controllers/github.json')
+    file = file_fixture('test.json').read
     hash = JSON.parse(file)
     proxy.stub(url).and_return(headers: { 'Access-Control-Allow-Origin' => '*'}, json: hash)
 
     visit '/actions/index'
-    sleep 20
+    sleep 3
     p page.driver.console_messages
     screenshot_and_open_image
-    expect(page).to have_content('abcdefghi')
+    expect(page).to have_css('.https', text: 'expected_value')
   end
 end
