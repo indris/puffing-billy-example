@@ -5,6 +5,7 @@ require 'rspec/core'
 require 'rspec/rails'
 require 'capybara/rspec'
 require 'billy/capybara/rspec'
+require 'webmock/rspec'
 
 require 'rack/utils'
 
@@ -23,11 +24,13 @@ Capybara::Webkit.configure do |config|
   config.allow_unknown_urls
 end
 
+WebMock.allow_net_connect!
+
 RSpec.configure do |config|
   config.include Capybara::DSL
 end
 
-describe 'Actions' do
+describe 'With WebMock' do
 
   it 'stub for HTTP working' do
     url = 'http://api.github.com/'
@@ -38,7 +41,7 @@ describe 'Actions' do
     visit '/actions/index'
     sleep 3
     p page.driver.console_messages
-    screenshot_and_open_image
+    # screenshot_and_open_image
     expect(page).to have_css('.http', text: 'expected_value')
   end
 
@@ -51,7 +54,7 @@ describe 'Actions' do
     visit '/actions/index'
     sleep 3
     p page.driver.console_messages
-    screenshot_and_open_image
+    # screenshot_and_open_image
     expect(page).to have_css('.https', text: 'expected_value')
   end
 end
